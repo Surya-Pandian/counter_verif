@@ -1,8 +1,7 @@
 onerror {quit -code 1}
 
-add wave -r sim:/counter_tb/*
 add wave -r sim:/counter_tb/dut/*
 
-run -all
+configure wave -timelineunits ms
 
-quit -code 0
+run -all

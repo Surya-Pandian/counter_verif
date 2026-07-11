@@ -35,7 +35,7 @@ module counter_tb;
       if(up_down)
         exp_count = exp_count + 1'b1;
       else
-        exp_coutn = exp_count - 1'b1;
+        exp_count = exp_count - 1'b1;
       
       `ifdef DEBUG
         $display("UVM_INFO: [DEBUG] time=%0t clk=%0b rst_n=%0b en=%0b count=%0d", $time, clk, rst_n, en, count);
@@ -57,3 +57,4 @@ module counter_tb;
     $display("UVM_WARNING: End of the test reached, review waveform for timing.");
     $finish;
   end
+ endmodule
