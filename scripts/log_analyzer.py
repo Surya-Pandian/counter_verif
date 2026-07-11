@@ -81,11 +81,19 @@ def main():
             default_flow_style=False,
             sort_keys=False
         )
+    # Overall PASS/FAIL tally
+    passed_count = sum(1 for s in summary if s["result"] == "PASSED")
+    failed_count = sum(1 for s in summary if s["result"] == "FAILED")
+    other_count  = len(summary) - passed_count - failed_count
 
     print("Log analysis complete.")
     print(f"UVM_INFO count collected internally for {len(test_names)} tests.")
     print(f"Reports generated in: {REPORT_DIR}/")
-
+    print("")
+    print("=" * 40)
+    print(f"REGRESSION SUMMARY: {passed_count} PASSED, {failed_count} FAILED"
+          + (f", {other_count} OTHER" if other_count else ""))
+    print("=" * 40)
 
 if __name__ == "__main__":
     main()

@@ -6,6 +6,7 @@ SNAPSHOT  := $(TOP)_opt
 
 TESTNAME  ?= test1
 SEED      ?= 1
+DEFINES   ?=
 
 WORK_DIR  := work
 LOG_DIR   := ../logs
@@ -21,6 +22,7 @@ lib:
 compile: lib
 	vlog -work $(WORK_DIR) \
 	     -l $(LOG_DIR)/compile.log \
+             $(DEFINES) \
 	     $(DUT_FILES) $(TB_FILES)
 
 opt: compile
@@ -52,7 +54,7 @@ regress: opt
 	@python3 -c 'import yaml; cfg=yaml.safe_load(open("$(YAML_CFG)")); [print("{} {}".format(t["name"], t["seed"])) for t in cfg["tests"]]' | \
 	while read test seed; do \
 		echo "Running $$test with seed $$seed"; \
-		$(MAKE) --no-print-directory run TESTNAME=$$test SEED=$$seed || exit $$?; \
+		$(MAKE) --no-print-directory runc TESTNAME=$$test SEED=$$seed || exit $$?; \
 	done
 
 clean:
