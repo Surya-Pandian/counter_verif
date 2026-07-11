@@ -1,0 +1,22 @@
+defaults: &defaults
+  verbosity: UVM_MEDIUM
+  timeout_ns: 100000
+
+tests:
+  - name: test1
+    seed: 101
+    <<: *defaults
+
+  - name: test2
+    seed: 202
+    <<: *defaults
+    verbosity: UVM_HIGH
+
+  - name: test3
+    seed: 303
+    <<: *defaults
+    timeout_ns: 250000
+
+  - name: test4
+    seed: 404
+    <<: *defaults
