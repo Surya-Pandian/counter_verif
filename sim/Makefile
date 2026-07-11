@@ -29,14 +29,23 @@ opt: compile
 	     -work $(WORK_DIR) \
 	     -o $(SNAPSHOT)
 
-sim: opt run
+sim: opt runc
+
+runc:
+	@mkdir -p $(LOG_DIR)
+	vsim -c $(SNAPSHOT) \
+	     -sv_seed $(SEED) \
+	     +UVM_TESTNAME=$(TESTNAME) \
+	     -l $(LOG_DIR)/$(TESTNAME).log \
+	     -do $(DO_FILE)
+
 
 run:
 	@mkdir -p $(LOG_DIR)
 	vsim -gui $(SNAPSHOT) \
 	     -sv_seed $(SEED) \
 	     +UVM_TESTNAME=$(TESTNAME) \
-	     -l $(LOG_DIR)/$(TESTNAME)_seed_$(SEED).log \
+	     -l $(LOG_DIR)/$(TESTNAME).log \
 	     -do $(DO_FILE)
 
 regress: opt
