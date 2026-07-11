@@ -17,7 +17,7 @@ module counter_tb;
   );
 
   initial clk = 0;
-  always #50 clk = ~clk;
+  always #50 clk = ~clk; //BUG-1 : half-period should be #5 for 10ns clock
 
   initial begin
     rst_n     = 0;
@@ -25,7 +25,7 @@ module counter_tb;
     up_down   = 1;
     exp_count = 4'b0000;
 
-    #7 rst_n = 1;
+    #7 rst_n = 1; //BUG-2 : reset released too early, should hold for #20 (2 cycles)
 
     en = 1;
     repeat(5) begin
@@ -41,7 +41,7 @@ module counter_tb;
         $display("UVM_INFO: [DEBUG] time=%0t clk=%0b rst_n=%0b en=%0b count=%0d", $time, clk, rst_n, en, count);
       `endif
 
-      if(count == exp_count) begin
+      if(count = exp_count) begin //BUG-3: assignment '=' used instead of equality '=='
         $display("UVM_INFO: MATCH count=%0d exp=%0d time=%0t", count, exp_count, $time);
       end
       else begin
